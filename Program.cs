@@ -1,6 +1,5 @@
-using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Globalization;
 using System.IO;
 
@@ -10,52 +9,46 @@ namespace A01
     {
         public static void Main(string[] args)
         {
+            string path = "C:\\Users\\nscho\\Documents\\A01.csv";
 
-            String formatter = "dd.mm.yyyy"; 
-
-            String Path = "C:\\Users\\nscho\\Documents\\A01.csv";
-
-            if (string.IsNullOrEmpty(Path))
+            if (string.IsNullOrEmpty(path))
             {
                 Console.WriteLine("There is no file");
                 return;
             }
 
-            List<String> ContentList = new List<String>();
-            
-       
-        try
+            List<string> contentList = new List<string>();
+
+            try
             {
-                using (StreamReader reader = new StreamReader(Path))
+                using (StreamReader reader = new StreamReader(path))
                 {
-                 string line;
-                    while ((line = reader.ReadLine()) != null) 
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
                     {
-                        ContentList.Add(line);
+                        contentList.Add(line);
                     }
                 }
 
                 List<string> outputList = new List<string>();
 
-                int max = ContentList.Count - 2;
-                for (int i = 1; i < max; i++)
+                int max = contentList.Count;
+                for (int i = 0; i < max; i++)
                 {
-                    string[] contents = ContentList[i].Split('|');
-                    contents[0] = input; 
-
-                    DayTime ParseExtract(input, formatter, IFormatProvider? provider);      
-                    
-
-                    Console.WriteLine(contents[0]);
-                    Console.WriteLine(contents[1]);
-
-                    string newLine = string.Empty;
-                    foreach (string content in contents)
+                    string[] contents = contentList[i].Split('|');
+                    if (contents.Length > 0)
                     {
-                        newLine += content.Trim('|');
+                        string input = contents[0];
+                        DateTime date;
+                        if (DateTime.TryParseExact(input, new string[] { "yyyy-MM-dd", "MM/dd/yyyy", "dd.MM.yyyy" }, CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+                        {
+                            Data data = new Data(input, date);
+                            contents[0] = data.Date.ToString("dd.MM.yyyy");
+                        }
+
+                        string newLine = string.Join("|", contents);
+                        outputList.Add(newLine);
                     }
-                    newLine = newLine.TrimEnd('|');
-                    outputList.Add(newLine);
                 }
 
                 string outputPath = "C:\\Users\\nscho\\Documents\\A04_output.txt";
@@ -68,7 +61,7 @@ namespace A01
                     }
                 }
 
-                Console.WriteLine("completed successfully.");
+                Console.WriteLine("Completed successfully.");
             }
             catch (Exception ex)
             {
@@ -76,6 +69,5 @@ namespace A01
             }
         }
     }
-}
 
-            
+}
