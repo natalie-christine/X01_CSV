@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace A01_Umformung_von_Datums_und_Zahlenwerten
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("Hello, World!");
+
+            string path = "C:\\Users\\nscho\\Documents\\A01.csv";
+
+            if (string.IsNullOrEmpty(path))
+            {
+                Console.WriteLine("There is no file");
+                return;
+            }
+
+            List<string> pathList = new List<string>();
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        pathList.Add(line);
+                    }
+                }
+
+                // Bearbeite jede Zeile und speichere die Ergebnisse
+                List<string> outputList = new List<string>();
+
+                int max = pathList.Count - 2;
+                for (int x1 = 1; x1 < max; x1++)
+                {
+                    string[] contents = pathList[x1].Split('|');
+                    string newLine = string.Empty;
+                    foreach (string content in contents)
+                    {
+                        newLine += content.Trim('"') + "|";
+                    }
+                    // Entferne das letzte "|"
+                    newLine = newLine.TrimEnd('|');
+                    outputList.Add(newLine);
+                }
+
+                string outputPath = "C:\\Users\\nscho\\Documents\\A01_output.csv";
+                using (StreamWriter writer = new StreamWriter(outputPath))
+                {
+                    foreach (string outputLine in outputList)
+                    {
+                        writer.WriteLine(outputLine);
+                    }
+                }
+
+                Console.WriteLine("File processing completed successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+    }
+}
