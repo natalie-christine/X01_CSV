@@ -17,3 +17,10 @@ Testen Sie Ihre Lösung mit verschiedenen Eingabewerten, um sicherzustellen, das
 Halten Sie sich an die gängigen Konventionen für C#-Code und kommentieren Sie Ihren Code, um seine Funktionsweise zu erklären.
 
 Viel Erfolg!
+
+
+Übung 2: 
+bitte die Übung erweitern um einen XML Export.
+D.h. bitte alle formatierten Werte in einer für Dich sinnvollen XML Struktur abspeichern, sodass diese entsprechend Exportiert werden.
+
+In Weiterer Folge bitte genau diese Datei mit einer gesonderten Methode wieder einlesen und in der Console ausgeben.
