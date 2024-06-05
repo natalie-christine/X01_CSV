@@ -1,0 +1,88 @@
+using Microsoft.VisualBasic;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace A01_CSV
+{
+	internal class PrepairForXML
+	{
+
+		public PrepairForXML()
+		{
+
+
+			string path = "C:\\Users\\nscho\\Documents\\InputFile.txt";
+
+			if (string.IsNullOrEmpty(path))
+			{
+				Console.WriteLine("There is no file");
+				return;
+			}
+
+			List<string> contentList = new List<string>();
+			List<string> outputList = new List<string>();
+
+			string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\InputFile.txt");
+
+			foreach (string line in source)
+			{
+				contentList.Add(line.Trim());
+			}
+
+			
+			int max = contentList.Count;
+
+			XElement root = new XElement("Root");
+
+			for (int i = 0; i < max; i++)
+			{
+				string[] fields = contentList[i].Split('|');
+				if (fields.Length > 0)
+                {
+                    XElement inputElement = new("Date",
+                    new XAttribute("Input-Date", fields[0]),
+					new XElement("CheckValue", fields[1]),
+				   new XElement("Datatyp", fields[2])
+
+				   );
+					root.Add(inputElement);
+					Console.WriteLine(inputElement.ToString());
+
+
+				}
+				else
+				{
+					continue;
+				}
+			}
+			int DateValuesLines = 21;
+
+			/*
+			for (int i = DateValuesLines; i < max; i++)
+			{
+				string[] fields = contentList[i].Split('|');
+				if (fields.Length > 0)
+				{
+					XElement inputElement = new XElement("decimal",
+					 new XAttribute("Input", fields[0]),
+					new XElement("CheckValue", fields[1]),
+					new XElement("Datatyp", fields[2])
+
+					);
+					root.Add(inputElement);
+					Console.WriteLine(inputElement.ToString());
+				   ;
+				}
+
+			}
+			Console.ReadLine();
+		
+			*/
+	   }
+	}
+}
