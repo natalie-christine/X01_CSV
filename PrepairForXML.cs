@@ -28,15 +28,17 @@ namespace A01_CSV
 			List<string> contentList = new List<string>();
 			List<string> outputList = new List<string>();
 
-		//	string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\InputFile.txt");
+			//	string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\InputFile.txt");
 			string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\A18_output.txt");
+
+
 
 			foreach (string line in source)
 			{
 				contentList.Add(line.Trim());
 			}
 			int DateValuesLines = 21;
-			
+
 			int max = contentList.Count;
 
 			XElement root = new XElement("Root");
@@ -46,8 +48,8 @@ namespace A01_CSV
 			{
 				string[] fields = contentList[i].Split('|');
 
-                if (fields.Length == 3)
-                {
+				if (fields.Length == 3)
+				{
 
 					if (i < DateValuesLines)
 					{
@@ -59,6 +61,7 @@ namespace A01_CSV
 
 					   );
 						root.Add(inputElement);
+						outputList.Add(inputElement.ToString());
 						Console.WriteLine(inputElement.ToString());
 
 					}
@@ -73,26 +76,36 @@ namespace A01_CSV
 
 						);
 						root.Add(inputValue);
+						outputList.Add(inputValue.ToString());
 						Console.WriteLine(inputValue.ToString());
 					}
 
-                }
-				
-                else if (fields.Length == 1 && string.IsNullOrEmpty(fields[0])) 
+				}
+
+				else if (fields.Length == 1 && string.IsNullOrEmpty(fields[0]))
 				{
 
 					XElement empty = new XElement("EmptyElement",
 						new XElement("Empty")
-						); 
+						);
 					root.Add(empty.ToString());
-                    Console.WriteLine(empty.ToString());
+					outputList.Add(empty.ToString());
+					Console.WriteLine(empty.ToString());
 
-                }
-			
-			
+				}
+
+
+			}
+			string outputPath = ("C:\\Users\\nscho\\Documents\\XML_Export01.txt");
+
+			using (StreamWriter writer = new StreamWriter(outputPath))
+			{
+				foreach (string outputLine in outputList)
+				{
+					writer.WriteLine(outputLine);
+				}
 			}
 			Console.ReadLine();
-
-	   }
+		}
 	}
 }
