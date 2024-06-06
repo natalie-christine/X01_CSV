@@ -5,6 +5,7 @@ using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace A01_CSV
@@ -27,62 +28,71 @@ namespace A01_CSV
 			List<string> contentList = new List<string>();
 			List<string> outputList = new List<string>();
 
-			string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\InputFile.txt");
+		//	string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\InputFile.txt");
+			string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\A18_output.txt");
 
 			foreach (string line in source)
 			{
 				contentList.Add(line.Trim());
 			}
-
+			int DateValuesLines = 21;
 			
 			int max = contentList.Count;
 
 			XElement root = new XElement("Root");
 
 			for (int i = 0; i < max; i++)
+
 			{
 				string[] fields = contentList[i].Split('|');
-				if (fields.Length > 0)
+
+                if (fields.Length == 3)
                 {
-                    XElement inputElement = new("Date",
-                    new XAttribute("Input-Date", fields[0]),
-					new XElement("CheckValue", fields[1]),
-				   new XElement("Datatyp", fields[2])
 
-				   );
-					root.Add(inputElement);
-					Console.WriteLine(inputElement.ToString());
+					if (i < DateValuesLines)
+					{
+						XElement inputElement = new XElement("Date",
 
+						new XElement("Input-Date", fields[0]),
+						new XElement("CheckValue", fields[1]),
+						new XElement("Datatyp", fields[2])
 
-				}
-				else
+					   );
+						root.Add(inputElement);
+						Console.WriteLine(inputElement.ToString());
+
+					}
+
+					else
+					{
+						XElement inputValue = new XElement("Decimal",
+
+						new XElement("Value", fields[0]),
+						new XElement("CheckValue", fields[1]),
+						new XElement("Datatyp", fields[2])
+
+						);
+						root.Add(inputValue);
+						Console.WriteLine(inputValue.ToString());
+					}
+
+                }
+				
+                else if (fields.Length == 1 && string.IsNullOrEmpty(fields[0])) 
 				{
-					continue;
-				}
-			}
-			int DateValuesLines = 21;
 
-			/*
-			for (int i = DateValuesLines; i < max; i++)
-			{
-				string[] fields = contentList[i].Split('|');
-				if (fields.Length > 0)
-				{
-					XElement inputElement = new XElement("decimal",
-					 new XAttribute("Input", fields[0]),
-					new XElement("CheckValue", fields[1]),
-					new XElement("Datatyp", fields[2])
+					XElement empty = new XElement("EmptyElement",
+						new XElement("Empty")
+						); 
+					root.Add(empty.ToString());
+                    Console.WriteLine(empty.ToString());
 
-					);
-					root.Add(inputElement);
-					Console.WriteLine(inputElement.ToString());
-				   ;
-				}
-
+                }
+			
+			
 			}
 			Console.ReadLine();
-		
-			*/
+
 	   }
 	}
 }
