@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -9,7 +9,7 @@ namespace A01_CSV
     {
         public CSV_reader()
         {
-            string path = "C:\\Users\\nscho\\Documents\\InputFile.txt";
+            string path = "C:\\Users\\nscho\\Documents\\A01\\InputFile.txt";
 
             if (string.IsNullOrEmpty(path) || !File.Exists(path))
             {
@@ -35,7 +35,7 @@ namespace A01_CSV
                 int DateValuesLines = 21; // Anzahl der Datumszeilen
                 int max = contentList.Count;
 
-                // Prozessiere die Datumszeilen
+               
                 for (int i = 0; i < DateValuesLines; i++)
                 {
                     string[] contents = contentList[i].Split('|');
@@ -93,12 +93,15 @@ namespace A01_CSV
                         }
                         else
                         {
+                           
                             Console.WriteLine($"Try Parse Error: {input}");
                         }
-                    }
+                    }else {
+                        string newLine = string.Join("|", contents);
+                        outputList.Add(contents[0]); }
                 }
 
-                string outputPath = "C:\\Users\\nscho\\Documents\\A20_output.txt";
+                string outputPath = "C:\\Users\\nscho\\Documents\\A01\\CSV_Export.txt";
 
                 using (StreamWriter writer = new StreamWriter(outputPath))
                 {

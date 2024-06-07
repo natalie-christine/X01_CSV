@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,8 +18,8 @@ namespace A01_CSV
 
         {
   
-            string xmlFilePath = "C:\\Users\\nscho\\Documents\\XML_Export.xml";
-            string outputFilePath = "C:\\Users\\nscho\\Documents\\XML_Import.txt";
+            string xmlFilePath = "C:\\Users\\nscho\\Documents\\A01\\XML_Export.xml";
+            string outputFilePath = "C:\\Users\\nscho\\Documents\\A01\\XML_Import.txt";
 
 
             if (string.IsNullOrEmpty(xmlFilePath) || string.IsNullOrEmpty(outputFilePath))
@@ -61,7 +61,7 @@ namespace A01_CSV
                     return string.Join(";", element.Elements().Select(e => e.Value)) + ";";
                 //    $"Date: {element.Element("Input-Date")?.Value}, CheckValue: {element.Element("CheckValue")?.Value}, Datatyp: {element.Element("Datatyp")?.Value}";
                 case "Decimal":
-                    return string.Join(";", element.Elements().Select(e => e.Value)) + ";";
+                    return string.Join(";", element.Elements().Select(e => e.Value))+ ";";
                 //    $"Decimal: {element.Element("Value")?.Value}, CheckValue: {element.Element("CheckValue")?.Value}, Datatyp: {element.Element("Datatyp")?.Value}";
                 case "EmptyElement":
                     return "";

@@ -1,4 +1,4 @@
-using Microsoft.VisualBasic;
+﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
@@ -17,7 +17,7 @@ namespace A01_CSV
 		{
 
 
-			string path = "C:\\Users\\nscho\\Documents\\InputFile.txt";
+			string path = "C:\\Users\\nscho\\Documents\\A01\\CSV_Export.txt";
 
 			if (string.IsNullOrEmpty(path))
 			{
@@ -26,12 +26,10 @@ namespace A01_CSV
 			}
 
 			List<string> contentList = new List<string>();
-			List<string> outputList = new List<string>();
+			
 
-			//	string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\InputFile.txt");
-			string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\A18_output.txt");
-
-
+			string[] source = File.ReadAllLines("C:\\Users\\nscho\\Documents\\A01\\CSV_Export.txt");
+		
 
 			foreach (string line in source)
 			{
@@ -40,15 +38,16 @@ namespace A01_CSV
 			int DateValuesLines = 21;
 
 			int max = contentList.Count;
-
 			XElement root = new XElement("Root");
+			
 
 			for (int i = 0; i < max; i++)
 
 			{
 				string[] fields = contentList[i].Split('|');
+		
 
-				if (fields.Length == 3)
+                if (fields.Length == 3)
 				{
 
 					if (i < DateValuesLines)
@@ -61,51 +60,45 @@ namespace A01_CSV
 
 					   );
 						root.Add(inputElement);
-						outputList.Add(inputElement.ToString());
+					
 						Console.WriteLine(inputElement.ToString());
 
 					}
 
 					else
 					{
-						XElement inputValue = new XElement("Decimal",
+						XElement inputElement = new XElement("Decimal",
 
 						new XElement("Value", fields[0]),
 						new XElement("CheckValue", fields[1]),
 						new XElement("Datatyp", fields[2])
 
 						);
-						root.Add(inputValue);
-						outputList.Add(inputValue.ToString());
-						Console.WriteLine(inputValue.ToString());
+						root.Add(inputElement);
+						Console.WriteLine(inputElement.ToString());
 					}
 
 				}
 
-				else if (fields.Length == 1 && string.IsNullOrEmpty(fields[0]))
+				else
 				{
 
-					XElement empty = new XElement("EmptyElement",
-						new XElement("Empty")
-						);
-					root.Add(empty.ToString());
-					outputList.Add(empty.ToString());
+					XElement empty = new XElement("EmptyElement");
+					root.Add(empty);
+			
 					Console.WriteLine(empty.ToString());
 
 				}
 
 
 			}
-			string outputPath = ("C:\\Users\\nscho\\Documents\\XML_Export01.txt");
 
-			using (StreamWriter writer = new StreamWriter(outputPath))
-			{
-				foreach (string outputLine in outputList)
-				{
-					writer.WriteLine(outputLine);
-				}
-			}
+            string outputPath = "C:\\Users\\nscho\\Documents\\A01\\XML_Export.xml";
+            File.WriteAllText(outputPath, root.ToString());
+
+            Console.WriteLine(root.ToString());
 			Console.ReadLine();
-		}
+
+        }
 	}
 }
